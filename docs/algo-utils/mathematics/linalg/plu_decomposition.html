@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>algo-utils.mathematics.linalg.plu_decomposition API documentation</title>
+<meta name="description" content="PLU decomposition and matrix operations that benefit from it …" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<style>:root{--highlight-color:#f3f5dc1f}.flex{display:flex !important}body{line-height:1.5em;background:#282828;color:#ebdbb2}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ebdbb2;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a:link{color:#8ec07c}a:visited{color:#d3869b}a:hover{color:#fe8019}a:active{color:#83a598}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#ebdbb2}pre code{background:#282828;font-size:.8em;line-height:1.4em}code{background:#282828;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#282828;border:0;border-top:1px solid #282828;border-bottom:1px solid #282828;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #282828}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#f3f5dc10;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#f3f5dc30}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#ebdbb2;border-left:5px solid #ebdbb2;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#ebdbb2;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}::-webkit-scrollbar{width:10px;height:10px;background:#ebdbb2}::-webkit-scrollbar-corner{background:#ebdbb2}::-webkit-scrollbar-track{background:#282828;box:inset 0 0 5px #ebdbb2}::-webkit-scrollbar-thumb{background:#ebdbb2}::-webkit-scrollbar-thumb:hover{background:#d5c4a1}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px dashed #ebdbb2}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML" integrity="sha256-kZafAc6mZvK3W3v1pHOcUix30OHQN6pU/NO2oFkqZVw=" crossorigin></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+<style>/* gruvbox */.hljs{display:block;overflow-x:auto;padding:.5em;background:#282828}.hljs,.hljs-subst{color:#ebdbb2}.hljs-deletion,.hljs-formula,.hljs-keyword,.hljs-link,.hljs-selector-tag{color:#fb4934}.hljs-built_in,.hljs-emphasis,.hljs-name,.hljs-quote,.hljs-strong,.hljs-title,.hljs-variable{color:#83a598}.hljs-attr,.hljs-params,.hljs-template-tag,.hljs-type{color:#fabd2f}.hljs-builtin-name,.hljs-doctag,.hljs-literal,.hljs-number{color:#8f3f71}.hljs-code,.hljs-meta,.hljs-regexp,.hljs-selector-id,.hljs-template-variable{color:#fe8019}.hljs-addition,.hljs-meta-string,.hljs-section,.hljs-selector-attr,.hljs-selector-class,.hljs-string,.hljs-symbol{color:#b8bb26}.hljs-attribute,.hljs-bullet,.hljs-class,.hljs-function,.hljs-function .hljs-keyword,.hljs-meta-keyword,.hljs-selector-pseudo,.hljs-tag{color:#8ec07c}.hljs-comment{color:#928374}.hljs-link_label,.hljs-literal,.hljs-number{color:#d3869b}.hljs-comment,.hljs-emphasis{font-style:italic}.hljs-section,.hljs-strong,.hljs-tag{font-weight:700}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>algo-utils.mathematics.linalg.plu_decomposition</code></h1>
+</header>
+<section id="section-intro">
+<p>PLU decomposition and matrix operations that benefit from it.</p>
+<p>See <code>plu_decomposition_utils</code> for underlying implementation.</p>
+<p>Source:
+<a href="https://en.m.wikipedia.org/wiki/LU_decomposition#C_code_example">https://en.m.wikipedia.org/wiki/LU_decomposition#C_code_example</a></p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/benrosenberg/algo-utils/blob/116ec4bb088072546cf931c60df06385049b14f1/mathematics/linalg/plu_decomposition.py#L1-L163" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">&#39;&#39;&#39;
+PLU decomposition and matrix operations that benefit from it.
+
+See `plu_decomposition_utils` for underlying implementation.
+
+Source:  https://en.m.wikipedia.org/wiki/LU_decomposition#C_code_example
+&#39;&#39;&#39;
+
+from .matrix import diag, matmul
+from .plu_decomposition_utils import *
+
+from copy import deepcopy
+from math import prod
+
+def PLUDecomposition(A, tolerance=1e-9):
+    &#39;&#39;&#39;PLU decomposition of a matrix `A`
+    
+    Input:
+    
+     - `A`: an \\(n \\times n\\) matrix
+     - `tolerance`: threshold for considering a float equal to 0. Defaults to `1e-9`
+
+    Output:
+
+     - `P`: permutation matrix
+     - `L`: lower triangular matrix
+     - `U`: upper triangular matrix
+
+    `P`, `L`, and `U` are guaranteed to obey \\(PA = LU\\).
+
+    Side effects:
+
+     - Modifies `A` in place
+    
+    If `A` is singular/degenerate this will throw.&#39;&#39;&#39;
+    if len(A) != len(A[0]):
+        raise ValueError(&#39;expected a square matrix, got dimensions ({},{})&#39;.format(len(A), len(A[0])))
+    N = len(A)
+    status, P = LUPDecompose(A, N, tolerance)
+    if status == 0:
+        raise ArithmeticError(&#39;degenerate matrix detected&#39;)
+    L, U = extractLU(A, N)
+    P = expandP(P)
+    return P, L, U
+
+def PLUDeterminant(A, tolerance=1e-9):
+    &#39;&#39;&#39;Determinant of a \\(n \\times n\\) matrix `A` using PLU decomposition
+    
+    Input:
+    
+     - `A`: an \\(n \\times n\\) matrix
+     - `tolerance`: threshold for considering a float equal to 0. Defaults to `1e-9`
+
+    Output:
+
+     - `d`: \\(\\det A\\)
+
+    Side effects:
+
+     - Modifies `A` in place
+    
+    If `A` is singular/degenerate this will throw.&#39;&#39;&#39;
+    if len(A) != len(A[0]):
+        raise ValueError(&#39;expected a square matrix, got dimensions ({},{})&#39;.format(len(A), len(A[0])))
+    N = len(A)
+    status, P = LUPDecompose(A, N, tolerance)
+    if status == 0:
+        raise ArithmeticError(&#39;degenerate matrix detected&#39;)
+    L, U = extractLU(A, N)
+    return prod(diag(L)) * prod(diag(U)) * (-1 if (P[N] - N) % 2 else 1)
+
+def PLUSolve(A, b, tolerance=1e-9):
+    &#39;&#39;&#39;Solution \\(\\vec x\\) to \\(A\\vec x = b\\) using PLU decomposition
+    
+    Input:
+    
+     - `A`: an \\(n \\times n\\) matrix
+     - `b`: a list (vector) of length \\(n\\)
+     - `tolerance`: threshold for considering a float equal to 0. Defaults to `1e-9`
+
+    Output:
+
+     - `x`: solution vector to \\(A\\vec x = b\\)
+
+    Side effects:
+
+     - Modifies `A` in place
+    
+    If `A` is singular/degenerate this will throw.&#39;&#39;&#39;
+    if len(A) != len(A[0]):
+        raise ValueError(&#39;expected a square matrix, got dimensions ({},{})&#39;.format(len(A), len(A[0])))
+    N = len(A)
+    status, P = LUPDecompose(A, N, tolerance)
+    if status == 0:
+        raise ArithmeticError(&#39;degenerate matrix detected&#39;)
+    return LUPSolve(A, P, b, N)
+
+def PLUInvert(A, tolerance=1e-9):
+    &#39;&#39;&#39;Invert a matrix `A` using PLU decomposition
+    
+    Input:
+    
+     - `A`: an \\(n \\times n\\) matrix
+     - `tolerance`: threshold for considering a float equal to 0. Defaults to `1e-9`
+
+    Output:
+
+     - \\(A^{-1}\\): inverted version of `A`
+
+    Side effects:
+
+     - Modifies `A` in place
+    
+    If `A` is singular/degenerate this will throw.&#39;&#39;&#39;
+    if len(A) != len(A[0]):
+        raise ValueError(&#39;expected a square matrix, got dimensions ({},{})&#39;.format(len(A), len(A[0])))
+    N = len(A)
+    status, P = LUPDecompose(A, N, tolerance)
+    if status == 0:
+        raise ArithmeticError(&#39;degenerate matrix detected&#39;)
+    return LUPInvert(A, P, N)
+
+if __name__ == &#34;__main__&#34;:
+    N = 4
+    tolerance = 1e-9
+
+    # Initialize matrix A
+    A = [[1, 3, 1, 4],[3, 9, 5, 15],[0, 2, 1, 1],[0, 4, 2, 3]]
+    A_init = deepcopy(A)
+    b = [4, 2, 5, 3]
+
+    # Perform LUP Decomposition
+    status, P = LUPDecompose(A, N, tolerance)
+    assert status == 1, &#39;Failed test: LUPDecompose&#39;
+
+    # Solve the system A*x = b
+    x = LUPSolve(A, P, b, N)
+    expected = [16.75, 3.2499999999999996, 5.500000000000001, -7.0]
+    assert x == expected, &#39;Failed test: LUPSolve&#39;
+
+    x = PLUSolve(deepcopy(A_init), b)
+    expected = [16.75, 3.2499999999999996, 5.500000000000001, -7.0]
+    assert x == expected, &#39;Failed test: PLUSolve&#39;
+
+    L, U = extractLU(A, N)
+    P = expandP(P)
+    assert matmul(L, U) == matmul(P, A_init), &#39;Failed tests: extractLU, expandP, PLUDecomposition&#39;
+    
+    det = PLUDeterminant(deepcopy(A_init))
+    expected = -3.999999999999999
+    assert det == expected, &#39;Failed test: PLUDeterminant&#39;
+
+    # Find the inverse of the matrix
+    IA = PLUInvert(deepcopy(A_init))
+    expected = [
+        [0.25, 0.25, 5.0, -3.25],
+        [0.7500000000000002, -0.25000000000000006, -4.440892098500626e-16, 0.2500000000000002],
+        [-1.5000000000000004, 0.5000000000000001, 3.000000000000001, -1.5000000000000004],
+        [-0.0, -0.0, -2.0, 1.0]
+    ]
+    assert IA == expected, &#39;Failed test: PLUInvert&#39;
+
+    print(&#39;Passed all tests.&#39;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="algo-utils.mathematics.linalg.plu_decomposition.PLUDecomposition"><code class="name flex">
+<span>def <span class="ident">PLUDecomposition</span></span>(<span>A, tolerance=1e-09)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>PLU decomposition of a matrix <code>A</code></p>
+<p>Input:</p>
+<ul>
+<li><code>A</code>: an <span><span class="MathJax_Preview">n \times n</span><script type="math/tex">n \times n</script></span> matrix</li>
+<li><code>tolerance</code>: threshold for considering a float equal to 0. Defaults to <code>1e-9</code></li>
+</ul>
+<p>Output:</p>
+<ul>
+<li><code>P</code>: permutation matrix</li>
+<li><code>L</code>: lower triangular matrix</li>
+<li><code>U</code>: upper triangular matrix</li>
+</ul>
+<p><code>P</code>, <code>L</code>, and <code>U</code> are guaranteed to obey <span><span class="MathJax_Preview">PA = LU</span><script type="math/tex">PA = LU</script></span>.</p>
+<p>Side effects:</p>
+<ul>
+<li>Modifies <code>A</code> in place</li>
+</ul>
+<p>If <code>A</code> is singular/degenerate this will throw.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/benrosenberg/algo-utils/blob/116ec4bb088072546cf931c60df06385049b14f1/mathematics/linalg/plu_decomposition.py#L15-L44" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def PLUDecomposition(A, tolerance=1e-9):
+    &#39;&#39;&#39;PLU decomposition of a matrix `A`
+    
+    Input:
+    
+     - `A`: an \\(n \\times n\\) matrix
+     - `tolerance`: threshold for considering a float equal to 0. Defaults to `1e-9`
+
+    Output:
+
+     - `P`: permutation matrix
+     - `L`: lower triangular matrix
+     - `U`: upper triangular matrix
+
+    `P`, `L`, and `U` are guaranteed to obey \\(PA = LU\\).
+
+    Side effects:
+
+     - Modifies `A` in place
+    
+    If `A` is singular/degenerate this will throw.&#39;&#39;&#39;
+    if len(A) != len(A[0]):
+        raise ValueError(&#39;expected a square matrix, got dimensions ({},{})&#39;.format(len(A), len(A[0])))
+    N = len(A)
+    status, P = LUPDecompose(A, N, tolerance)
+    if status == 0:
+        raise ArithmeticError(&#39;degenerate matrix detected&#39;)
+    L, U = extractLU(A, N)
+    P = expandP(P)
+    return P, L, U</code></pre>
+</details>
+</dd>
+<dt id="algo-utils.mathematics.linalg.plu_decomposition.PLUDeterminant"><code class="name flex">
+<span>def <span class="ident">PLUDeterminant</span></span>(<span>A, tolerance=1e-09)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Determinant of a <span><span class="MathJax_Preview">n \times n</span><script type="math/tex">n \times n</script></span> matrix <code>A</code> using PLU decomposition</p>
+<p>Input:</p>
+<ul>
+<li><code>A</code>: an <span><span class="MathJax_Preview">n \times n</span><script type="math/tex">n \times n</script></span> matrix</li>
+<li><code>tolerance</code>: threshold for considering a float equal to 0. Defaults to <code>1e-9</code></li>
+</ul>
+<p>Output:</p>
+<ul>
+<li><code>d</code>: <span><span class="MathJax_Preview">\det A</span><script type="math/tex">\det A</script></span></li>
+</ul>
+<p>Side effects:</p>
+<ul>
+<li>Modifies <code>A</code> in place</li>
+</ul>
+<p>If <code>A</code> is singular/degenerate this will throw.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/benrosenberg/algo-utils/blob/116ec4bb088072546cf931c60df06385049b14f1/mathematics/linalg/plu_decomposition.py#L46-L70" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def PLUDeterminant(A, tolerance=1e-9):
+    &#39;&#39;&#39;Determinant of a \\(n \\times n\\) matrix `A` using PLU decomposition
+    
+    Input:
+    
+     - `A`: an \\(n \\times n\\) matrix
+     - `tolerance`: threshold for considering a float equal to 0. Defaults to `1e-9`
+
+    Output:
+
+     - `d`: \\(\\det A\\)
+
+    Side effects:
+
+     - Modifies `A` in place
+    
+    If `A` is singular/degenerate this will throw.&#39;&#39;&#39;
+    if len(A) != len(A[0]):
+        raise ValueError(&#39;expected a square matrix, got dimensions ({},{})&#39;.format(len(A), len(A[0])))
+    N = len(A)
+    status, P = LUPDecompose(A, N, tolerance)
+    if status == 0:
+        raise ArithmeticError(&#39;degenerate matrix detected&#39;)
+    L, U = extractLU(A, N)
+    return prod(diag(L)) * prod(diag(U)) * (-1 if (P[N] - N) % 2 else 1)</code></pre>
+</details>
+</dd>
+<dt id="algo-utils.mathematics.linalg.plu_decomposition.PLUInvert"><code class="name flex">
+<span>def <span class="ident">PLUInvert</span></span>(<span>A, tolerance=1e-09)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Invert a matrix <code>A</code> using PLU decomposition</p>
+<p>Input:</p>
+<ul>
+<li><code>A</code>: an <span><span class="MathJax_Preview">n \times n</span><script type="math/tex">n \times n</script></span> matrix</li>
+<li><code>tolerance</code>: threshold for considering a float equal to 0. Defaults to <code>1e-9</code></li>
+</ul>
+<p>Output:</p>
+<ul>
+<li><span><span class="MathJax_Preview">A^{-1}</span><script type="math/tex">A^{-1}</script></span>: inverted version of <code>A</code></li>
+</ul>
+<p>Side effects:</p>
+<ul>
+<li>Modifies <code>A</code> in place</li>
+</ul>
+<p>If <code>A</code> is singular/degenerate this will throw.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/benrosenberg/algo-utils/blob/116ec4bb088072546cf931c60df06385049b14f1/mathematics/linalg/plu_decomposition.py#L98-L121" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def PLUInvert(A, tolerance=1e-9):
+    &#39;&#39;&#39;Invert a matrix `A` using PLU decomposition
+    
+    Input:
+    
+     - `A`: an \\(n \\times n\\) matrix
+     - `tolerance`: threshold for considering a float equal to 0. Defaults to `1e-9`
+
+    Output:
+
+     - \\(A^{-1}\\): inverted version of `A`
+
+    Side effects:
+
+     - Modifies `A` in place
+    
+    If `A` is singular/degenerate this will throw.&#39;&#39;&#39;
+    if len(A) != len(A[0]):
+        raise ValueError(&#39;expected a square matrix, got dimensions ({},{})&#39;.format(len(A), len(A[0])))
+    N = len(A)
+    status, P = LUPDecompose(A, N, tolerance)
+    if status == 0:
+        raise ArithmeticError(&#39;degenerate matrix detected&#39;)
+    return LUPInvert(A, P, N)</code></pre>
+</details>
+</dd>
+<dt id="algo-utils.mathematics.linalg.plu_decomposition.PLUSolve"><code class="name flex">
+<span>def <span class="ident">PLUSolve</span></span>(<span>A, b, tolerance=1e-09)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Solution <span><span class="MathJax_Preview">\vec x</span><script type="math/tex">\vec x</script></span> to <span><span class="MathJax_Preview">A\vec x = b</span><script type="math/tex">A\vec x = b</script></span> using PLU decomposition</p>
+<p>Input:</p>
+<ul>
+<li><code>A</code>: an <span><span class="MathJax_Preview">n \times n</span><script type="math/tex">n \times n</script></span> matrix</li>
+<li><code>b</code>: a list (vector) of length <span><span class="MathJax_Preview">n</span><script type="math/tex">n</script></span></li>
+<li><code>tolerance</code>: threshold for considering a float equal to 0. Defaults to <code>1e-9</code></li>
+</ul>
+<p>Output:</p>
+<ul>
+<li><code>x</code>: solution vector to <span><span class="MathJax_Preview">A\vec x = b</span><script type="math/tex">A\vec x = b</script></span></li>
+</ul>
+<p>Side effects:</p>
+<ul>
+<li>Modifies <code>A</code> in place</li>
+</ul>
+<p>If <code>A</code> is singular/degenerate this will throw.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+<a href="https://github.com/benrosenberg/algo-utils/blob/116ec4bb088072546cf931c60df06385049b14f1/mathematics/linalg/plu_decomposition.py#L72-L96" class="git-link">Browse git</a>
+</summary>
+<pre><code class="python">def PLUSolve(A, b, tolerance=1e-9):
+    &#39;&#39;&#39;Solution \\(\\vec x\\) to \\(A\\vec x = b\\) using PLU decomposition
+    
+    Input:
+    
+     - `A`: an \\(n \\times n\\) matrix
+     - `b`: a list (vector) of length \\(n\\)
+     - `tolerance`: threshold for considering a float equal to 0. Defaults to `1e-9`
+
+    Output:
+
+     - `x`: solution vector to \\(A\\vec x = b\\)
+
+    Side effects:
+
+     - Modifies `A` in place
+    
+    If `A` is singular/degenerate this will throw.&#39;&#39;&#39;
+    if len(A) != len(A[0]):
+        raise ValueError(&#39;expected a square matrix, got dimensions ({},{})&#39;.format(len(A), len(A[0])))
+    N = len(A)
+    status, P = LUPDecompose(A, N, tolerance)
+    if status == 0:
+        raise ArithmeticError(&#39;degenerate matrix detected&#39;)
+    return LUPSolve(A, P, b, N)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="algo-utils.mathematics.linalg" href="index.html">algo-utils.mathematics.linalg</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="algo-utils.mathematics.linalg.plu_decomposition.PLUDecomposition" href="#algo-utils.mathematics.linalg.plu_decomposition.PLUDecomposition">PLUDecomposition</a></code></li>
+<li><code><a title="algo-utils.mathematics.linalg.plu_decomposition.PLUDeterminant" href="#algo-utils.mathematics.linalg.plu_decomposition.PLUDeterminant">PLUDeterminant</a></code></li>
+<li><code><a title="algo-utils.mathematics.linalg.plu_decomposition.PLUInvert" href="#algo-utils.mathematics.linalg.plu_decomposition.PLUInvert">PLUInvert</a></code></li>
+<li><code><a title="algo-utils.mathematics.linalg.plu_decomposition.PLUSolve" href="#algo-utils.mathematics.linalg.plu_decomposition.PLUSolve">PLUSolve</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>. <a property="dct:title" rel="cc:attributionURL" href="https://benrosenberg.info" class="link-problem">benrosenberg.info</a> by <span property="cc:attributionName">Ben Rosenberg</span> is licensed under <a href="https://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;" class="link-problem">CC BY 4.0<img class="cc-svg" style="height:20px!important;margin-left:3px;vertical-align:middle;" src="https://leetcode.benrosenberg.info/images/cc_dark.svg" alt=""><img class="by-svg" style="height:20px!important;margin-left:3px;vertical-align:middle;" src="https://leetcode.benrosenberg.info/images/by_dark.svg" alt=""></a></p>
+</footer>
+</body>
+</html>

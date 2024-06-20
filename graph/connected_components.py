@@ -1,5 +1,5 @@
 '''
-Connected component utilities for graphs.
+Utilities for determining the connected components of a graph.
 '''
 
 def find(parent, a):
